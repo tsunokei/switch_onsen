@@ -12,7 +12,74 @@
     </script>
 </head>
 <body>
-    <ons-navigator var="myNavigator" page="page1.html">
-    </ons-navigator> 
-</body>
+    <ons-navigator var="myNavigator">
+        <ons-page>
+            <ons-toolbar fixed-style>
+                <div class = "center">Memo App</div>
+            </ons-toolbar>
+            <div style="margin:auto; width=95%;">
+                <div class = "margins">
+                    <span style="color:#666"><ons-icon icon="fa-check-square-o" size="22em"></ons-icon></span>
+                </div>
+            </div>
+            <ons-button modifier="large--cta" onclick="myNavigator.resetToPage('slidingmenu.html')">Start</ons-button>
+        </ons-page>
+    </ons-navigator>
+ 
+    <!-- SLIDING MENU -->
+    <!--ons-template で同一ページに埋め込める-->
+    <ons-template id="slidingmenu.html">
+        <ons-page>
+            <ons-sliding-menu var="slidingMenu" swipeable="false" menu-page="menu.html" main-page="memo.html"  side="left" type="overlay" max-slide-distance="200px">
+            </ons-sliding-menu>
+        </ons-page>
+    </ons-template> 
+    <!-- sliding menu -->
+    <!-- MENU -->
+    <ons-template id="menu.html">
+        <ons-page fixed-style style="background-color: white">
+            <ons-toolbar fixed-style>
+                <div class="center">Categories</div>
+                <div class="right" style="margin-top:5px"><ons-button modifier="quiet" ng-click="slidingMenu.closeMenu()"><ons-icon icon="fa-chevron-left" size="25px" fixed-width="false" style="color: #5087c3"></ons-icon></ons-back-button></div>
+            </ons-toolbar>
+ 
+        <!-- List of items -->
+            <ons-list id="categoryList" ng-controller="categoryController">
+                <ons-list-item
+                modifier="tappable" class="list__item__line-height"
+                ng-click="setViewRefresh('*'); slidingMenu.closeMenu();">
+                   <i class="ion-home fa-lg" style="color: #666"></i>
+                    &nbsp; All
+                    <span class="item-label">{{countAll}}</span>
+                </ons-list-item>
+                <ons-list-item
+                modifier="tappable" class="list__item__line-height"
+                ng-click="setViewRefresh('~'); slidingMenu.closeMenu();">
+                    <i class="ion-checkmark" style="color: #666"></i>
+                    &nbsp; Completed
+                    <span class="item-label">{{completedCount ? completedCount : 0}}</span>
+                </ons-list-item>    
+                <ons-list-header>
+                    <div style="text-align: center;"><ons-icon icon="ion-minus-round"></ons-icon></div>
+                </ons-list-header>
+                <ons-list-item
+                modifier="tappable" class="list__item__line-height"
+                ng-click="setViewRefresh('=', ' '); slidingMenu.closeMenu();">
+                    <i class="ion-qr-scanner fa-lg" style="color: #666"></i>
+                    &nbsp; No category
+                    <span class="item-label">{{countCategories[' '] ? (countCategories[' '].total - countCategories[' '].completed) : 0}} ({{countCategories[' '] ? countCategories[' '].total : 0}})</span>
+                </ons-list-item>
+                <!-- -->
+                <ons-list-item
+                modifier="tappable" class="list__item__line-height"
+                ng-click="setViewRefresh('=', item); slidingMenu.closeMenu();" ng-repeat="item in categoryList">
+                    <i class="ion-folder fa-lg" style="color: #666"></i>
+                    &nbsp; {{item}}
+                    <span class="item-label">{{countCategories[item].total - countCategories[item].completed}} ({{countCategories[item].total}})</span>
+                </ons-list-item>
+            </ons-list>
+            <!--List of items -->
+        </ons-page>
+    </ons-template>
+</body> 
 </html>
