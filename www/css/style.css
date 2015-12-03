@@ -1,0 +1,20 @@
+.main-container {
+    float: left;
+    position: relative;
+    left: 50%;
+}
+ 
+.fixer-container{
+    float: left;
+    position: relative;
+    left: -50%;
+}
+ 
+.blockInline{
+    margin-left: 3px;
+    margin-right: 3px;
+    display: inline;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
